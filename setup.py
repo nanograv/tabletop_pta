@@ -41,9 +41,10 @@ setup(
     name='tabletop_pta',
     packages=find_packages(include=['tabletop_pta']),
     setup_requires=setup_requirements,
+    scripts=['PTAdemo1GUI','PTAdemo2GUI']
     test_suite='tests',
     tests_require=test_requirements,
-    url='https://github.com/Hazboun6/tabletop_pta',
+    url='https://github.com/nanograv/tabletop_pta',
     version='0.1.0',
     zip_safe=False,
 )
