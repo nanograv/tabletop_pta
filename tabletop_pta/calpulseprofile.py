@@ -1,6 +1,6 @@
 from __future__ import division, print_function
 import numpy as np
-import matplotlib.pyplot as plt
+#import matplotlib.pyplot as plt
 from .calpulseperiod import calpulseperiod
 from .foldtimeseries import foldtimeseries
 

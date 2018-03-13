@@ -1,6 +1,6 @@
 from __future__ import division, print_function
 import numpy as np
-import matplotlib.pyplot as plt
+#import matplotlib.pyplot as plt
 import scipy.stats as stats
 
 def foldtimeseries(ts, T):
