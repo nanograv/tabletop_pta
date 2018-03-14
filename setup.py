@@ -46,7 +46,7 @@ setup(
     name='tabletop_pta',
     packages=find_packages(include=['tabletop_pta']),
     setup_requires=setup_requirements,
-    scripts=['PTAdemo_single_metronome','PTAdemo_double_metronome'],
+    scripts=['bin/PTAdemo_single_metronome','bin/PTAdemo_double_metronome'],
     test_suite='tests',
     tests_require=test_requirements,
     url='https://github.com/nanograv/tabletop_pta',
