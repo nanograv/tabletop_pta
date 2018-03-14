@@ -17,21 +17,24 @@ from matplotlib.ticker import *#MultipleLocator, FormatStrFormatter, LogLocator
 
 import numpy as np
 
-from .recordpulses import recordpulses
-from .playpulses import playpulses
-from .calpulseperiod import calpulseperiod
-from .calpulseprofile import calpulseprofile
-from .caltemplate import caltemplate
-from .foldtimeseries import foldtimeseries
-from .correlate import correlate
-from .calmeasuredTOAs import calmeasuredTOAs
-from .calexpectedTOAs import calexpectedTOAs
-from .calresiduals import calresiduals
-from .detrend import detrend
-from .errsinusoid import errsinusoid
-from .calcorrcoeff import calcorrcoeff
-from .corrvslag import corrvslag
-from .zeropadtimeseries import zeropadtimeseries
+import sys
+sys.path.append('../')  #Here until we install the package
+from tabletop_pta import *
+# from .recordpulses import recordpulses
+# from .playpulses import playpulses
+# from .calpulseperiod import calpulseperiod
+# from .calpulseprofile import calpulseprofile
+# from .caltemplate import caltemplate
+# from .foldtimeseries import foldtimeseries
+# from .correlate import correlate
+# from .calmeasuredTOAs import calmeasuredTOAs
+# from .calexpectedTOAs import calexpectedTOAs
+# from .calresiduals import calresiduals
+# from .detrend import detrend
+# from .errsinusoid import errsinusoid
+# from .calcorrcoeff import calcorrcoeff
+# from .corrvslag import corrvslag
+# from .zeropadtimeseries import zeropadtimeseries
 
 import sys
 
