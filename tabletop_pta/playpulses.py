@@ -16,7 +16,7 @@ def playpulses(filename):
     CHUNK = 1024
     FORMAT = pyaudio.paInt16
     CHANNELS = 1
-    RATE = 22050 #44100
+    RATE = 44100 #22050 #
     deltaT = 1.0/RATE
 
     # first construct wavfile
@@ -24,21 +24,25 @@ def playpulses(filename):
     scaled = np.int16(ts[:,1] * 32767)
     wav.write('temp.wav', RATE, scaled)
 
+    wf = wave.open('temp.wav', 'rb')
+
+
     # instantiate pyaudio
     p = pyaudio.PyAudio()
 
     # open stream
-    stream = p.open(format=FORMAT,
+    stream = p.open(format=p.get_format_from_width(wf.getsampwidth()),
                     channels=CHANNELS,
-                    rate=RATE,
+                    rate=wf.getframerate(),
                     output=True,
                     frames_per_buffer=CHUNK)
 
-    wf = wave.open('temp.wav', 'rb')
+    # FORMAT
+    # RATE
 
     data = wf.readframes(CHUNK)
 
-    while data != '':
+    while data != b'':
         stream.write(data)
         data = wf.readframes(CHUNK)
 

@@ -14,7 +14,7 @@ def recordpulses(filename):
     CHUNK = 1024
     FORMAT = pyaudio.paInt16
     CHANNELS = 1
-    RATE = 22050
+    RATE = 44100#22050
     RECORD_SECONDS = 8
     deltaT = 1.0/RATE
 
