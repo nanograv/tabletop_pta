@@ -6,7 +6,7 @@
 
 import unittest
 
-from tabletop_pta import tabletop_pta
+from tabletop_pta import *
 
 
 class TestTabletop_pta(unittest.TestCase):
