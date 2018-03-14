@@ -16,17 +16,37 @@ tabletop_pta
 
 
 
-Python Package to do Time of Arrival calculations for a Pulsar Timing Array demmo with metronomes.
+Python Package to do Time of Arrival calculations for a Pulsar Timing Array demonstration with metronomes.
 
 
 * Free software: MIT license
 * Documentation: https://tabletop-pta.readthedocs.io.
 
+Installation
+------------
+
+Before installing the tabletop_pta demonstration software one should install the
+audio software needed by tabletop_pta to record and playback the metronome
+pulses. This includes PyAudio and the PortAudio c-libraries it is based on.
+
+PyAudio: https://people.csail.mit.edu/hubert/pyaudio/ (And PortAudio Libraries)
+
+After installing those requirements got to the directory where `~/tabletop_pta/`
+can be found and run
+
+`python setup.py install`
 
 Features
 --------
 
-* TODO
+This software runs a set of Python scripts for finding the arrival time of metronome ticks.
+
+One may use the various functions while running Python or use one of two
+graphical user interfaces called with the commands:
+
+`PTAdemo_single_metronome`
+
+`PTAdemo_double_metronome`
 
 Credits
 -------
