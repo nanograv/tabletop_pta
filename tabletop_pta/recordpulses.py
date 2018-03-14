@@ -9,7 +9,7 @@ def recordpulses(filename):
     '''
     record data from metronomes and save to .txt file
     '''
-
+    
     # parameters
     CHUNK = 1024
     FORMAT = pyaudio.paInt16

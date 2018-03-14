@@ -11,7 +11,12 @@ with open('README.rst') as readme_file:
 with open('HISTORY.rst') as history_file:
     history = history_file.read()
 
-requirements = [ ]
+requirements = [
+    'numpy>=1.13',
+    'pyaudio>= 0.2',
+    'scipy>=0.19',
+    'matplotlib>=2.0',
+]
 
 setup_requirements = [ ]
 

@@ -1,36 +1,24 @@
-# Config file for automatic testing at travis-ci.org
-
 language: python
 python:
-  - 3.6
-  - 3.5
-  - 3.4
-  - 2.7
-
+- 3.6
+- 3.5
+- 3.4
+- 2.7
 before_install:
-  - sudo apt-get update
-  - sudo apt-get install python3
-  - sudo apt-get python-pyaudio python3-pyaudio
-
-# Command to install dependencies, e.g. pip install -r requirements.txt --use-mirrors
+- sudo apt-get update
+- sudo apt-get install python3
+- sudo apt-get python-pyaudio python3-pyaudio
 install:
-  - pip install -U tox-travis
-  - pip install -r requirements_dev.txt
-  - pip install -r requirements.txt
-
-# Command to run tests, e.g. python setup.py test
+- pip install -U tox-travis
+- pip install -r requirements_dev.txt
+- pip install -r requirements.txt
 script: tox
-
-# Assuming you have installed the travis-ci CLI tool, after you
-# create the Github repo and add it to Travis, run the
-# following command to finish PyPI deployment setup:
-# $ travis encrypt --add deploy.password
 deploy:
   provider: pypi
   distributions: sdist bdist_wheel
   user: Hazboun6
   password:
-    secure: FizzyFrog66?
+    secure: BrBRKxxbVE5Lug8uP6FFGV3lkdgDwoiwb6PQUmyAfd0ThgdwxI0ppkCMSjaQZlHi/OPJRdzKsZSgUgFHh8SK+mREtknlkOl4FqSvqO14XCRIsn6ShSpFtjTw3u2tDWBGwwxQs6KYNqTOh8MhNc2m2eng4UH3b/p2uLi9ugMW3/6FQReIhuiKFNmHJcNSRt5Euw0LRkHK2hQ5fOS6BZi9nfQaCvOVcmM/aTFSBrO2sN302+zcgnP+WY1ZTkJwNsIqpGUeDoI6v2lDvQSNJiPmDZo4iNpwiY4xDpDr5H81YGgLi0+2yhO6c6YZPpLxBmoaCzF6Q8MSVP5F6YBcaa0pO0fvwLKpf/MjLBbGrJ/v5yWe0y/2ZtBwN5/8i/pYREBnCsDYA0hGKGIgJ863yahXzOgohXTrH6npYMd+nomRnn+l4WfVriLv9Nu6b9+jyxUqin6RgNfHGy8XMwpUisArXgL0ZIMuFTtEN4mPmkN9gxPiAKHTD6nlR82n5RTcNM+QQ+FVPGcgdFaBeJek4i48ZOp36SCnhfdBOmgITgA5vnlmHJSSVZo180EjG7GrQrq8QLdiZvWsgRTynMLtApK+d5c9rD/PHXbDxYvGzz0O/ldBoNieKejqZIT7V2Q88XC35CbTLX6SSzQ2rGcmdZGzsMKTqPNYxrEmgPiaa5Cmo4w=
   on:
     tags: true
     repo: nanograv/tabletop_pta
