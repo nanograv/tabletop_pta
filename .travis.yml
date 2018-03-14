@@ -6,8 +6,7 @@ python:
 - 2.7
 before_install:
 - sudo apt-get update
-- sudo apt-get install python3
-- sudo apt-get python-pyaudio python3-pyaudio
+- sudo apt-get install portaudio19-dev
 install:
 - pip install -U tox-travis
 - pip install -r requirements_dev.txt
