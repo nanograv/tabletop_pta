@@ -6,8 +6,8 @@ tabletop_pta
 .. image:: https://img.shields.io/pypi/v/tabletop_pta.svg
         :target: https://pypi.python.org/pypi/tabletop_pta
 
-.. image:: https://img.shields.io/travis/Hazboun6/tabletop_pta.svg
-        :target: https://travis-ci.org/Hazboun6/tabletop_pta
+.. image:: https://img.shields.io/travis/nanograv/tabletop_pta.svg
+        :target: https://travis-ci.org/nanograv/tabletop_pta
 
 .. image:: https://readthedocs.org/projects/tabletop-pta/badge/?version=latest
         :target: https://tabletop-pta.readthedocs.io/en/latest/?badge=latest
