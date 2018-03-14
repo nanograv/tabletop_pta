@@ -2,12 +2,14 @@
 Credits
 =======
 
-Development Lead
+Development Leads
 ----------------
 
-* Jeffrey Shafiq Hazboun <jeffrey.hazboun@nanograv.org>
+Joseph D Romano
+Michael Lam
 
 Contributors
 ------------
-
-None yet. Why not be the first?
+Marc Normandin
+Joey S Key
+Jeffrey Shafiq Hazboun
