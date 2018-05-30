@@ -1,7 +1,7 @@
 from __future__ import division, print_function
 import numpy as np
 import pyaudio
-import matplotlib.pyplot as plt
+#import matplotlib.pyplot as plt
 import time
 
 def recordpulses(filename):
@@ -9,7 +9,7 @@ def recordpulses(filename):
     '''
     record data from metronomes and save to .txt file
     '''
-    
+
     # parameters
     CHUNK = 1024
     FORMAT = pyaudio.paInt16

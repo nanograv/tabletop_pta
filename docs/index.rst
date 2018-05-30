@@ -8,6 +8,7 @@ Welcome to tabletop_pta's documentation!
    readme
    installation
    usage
+   PTAdemo
    modules
    contributing
    authors

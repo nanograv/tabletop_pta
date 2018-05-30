@@ -1,6 +1,6 @@
 from __future__ import division, print_function
 import numpy as np
-import matplotlib.pyplot as plt
+#import matplotlib.pyplot as plt
 import scipy.optimize as opt
 from .correlate import correlate
 from .corrvslag import corrvslag
@@ -41,12 +41,12 @@ def calmeasuredTOAs(ts, template, Tp):
 
     # START DEBUG SECTION
     # plot correlation time series
-    if DEBUG:
-        plt.figure()
-        plt.plot(ts[:,0], ts[:,1], '-b', label = 'time series')
-        plt.plot(ts[:,0], C, '-r', label = 'correlation')
-        plt.xlabel('time (sec)')
-        plt.legend(loc = 'best')
+    # if DEBUG:
+    #     plt.figure()
+    #     plt.plot(ts[:,0], ts[:,1], '-b', label = 'time series')
+    #     plt.plot(ts[:,0], C, '-r', label = 'correlation')
+    #     plt.xlabel('time (sec)')
+    #     plt.legend(loc = 'best')
     # END DEBUG SECTION
 
     # find location of max correlation for reference pulse TOA
@@ -138,24 +138,24 @@ def calmeasuredTOAs(ts, template, Tp):
             Ahat[ii] = correlate(tauhat[ii], tszp, templatezp, norm)
 
         # START DEBUG SECTION
-        if DEBUG:
-            # plot data, correlation, and template around max
-            plt.figure()
-            plt.plot(ts[indices,0], C[indices], '-*r', label = 'correlation')
-            plt.plot(ts[indices,0], ts[indices,1], '-*b', label = 'time series')
-        if ~badTOA:
-            plt.plot(tauhat[ii]-ts[idx,0]+ts[idx:indices[-1]+1,0],
-                     template[0:len(indices)-(idx-indices[0]),1],
-			         '-*g', label = 'template')
-            plt.axhline(y = template[0,1], color='k')# starting value of pulse template
-            TOAexp = t0 + (ii+1-n0)*Tp
-            plt.axvline(x = TOAexp, color='b')
-            plt.axvline(x = tauhat[ii], color='r')
-            plt.xlabel('time (sec)')
-            plt.ylabel('correlation')
-            plt.legend(loc = 'best')
-            plt.title('n = ' + np.str(ii+1))
-            print(tauhat[ii]-TOAexp)
+        # if DEBUG:
+        #     # plot data, correlation, and template around max
+        #     plt.figure()
+        #     plt.plot(ts[indices,0], C[indices], '-*r', label = 'correlation')
+        #     plt.plot(ts[indices,0], ts[indices,1], '-*b', label = 'time series')
+        # if ~badTOA:
+        #     plt.plot(tauhat[ii]-ts[idx,0]+ts[idx:indices[-1]+1,0],
+        #              template[0:len(indices)-(idx-indices[0]),1],
+		# 	         '-*g', label = 'template')
+        #     plt.axhline(y = template[0,1], color='k')# starting value of pulse template
+        #     TOAexp = t0 + (ii+1-n0)*Tp
+        #     plt.axvline(x = TOAexp, color='b')
+        #     plt.axvline(x = tauhat[ii], color='r')
+        #     plt.xlabel('time (sec)')
+        #     plt.ylabel('correlation')
+        #     plt.legend(loc = 'best')
+        #     plt.title('n = ' + np.str(ii+1))
+        #     print(tauhat[ii]-TOAexp)
             #input('type any key to continue')
         # END DEBUG SECTION
 
