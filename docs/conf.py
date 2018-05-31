@@ -32,10 +32,12 @@ class Mock(MagicMock):
 MOCK_MODULES = ['pyaudio']
 sys.modules.update((mod_name, Mock()) for mod_name in MOCK_MODULES)
 
-def get_version(filename):
-    init_py = open(filename).read()
-    metadata = dict(re.findall("__([a-z]+)__ = '([^']+)'", init_py))
-    return metadata['version']
+# def get_version(filename):
+#     init_py = open(filename).read()
+#     metadata = dict(re.findall("__([a-z]+)__ = '([^']+)'", init_py))
+#     return metadata['version']
+# release = get_version('../spotify/__init__.py')
+# version = '.'.join(release.split('.')[:2])
 
 import tabletop_pta
 # -- General configuration ---------------------------------------------
