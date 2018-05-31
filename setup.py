@@ -15,8 +15,9 @@ requirements = [
     'numpy>=1.13',
     'scipy>=0.19',
     'matplotlib>=2.0',
+    'pyaudio>= 0.2',
 ]
-# 'pyaudio>= 0.2',
+
 setup_requirements = [ ]
 
 test_requirements = [ ]
