@@ -32,6 +32,11 @@ class Mock(MagicMock):
 MOCK_MODULES = ['pyaudio']
 sys.modules.update((mod_name, Mock()) for mod_name in MOCK_MODULES)
 
+def get_version(filename):
+    init_py = open(filename).read()
+    metadata = dict(re.findall("__([a-z]+)__ = '([^']+)'", init_py))
+    return metadata['version']
+
 import tabletop_pta
 # -- General configuration ---------------------------------------------
 
@@ -41,7 +46,7 @@ import tabletop_pta
 
 # Add any Sphinx extension module names here, as strings. They can be
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom ones.
-extensions = ['sphinx.ext.autodoc', 'sphinx.ext.viewcode','nbsphinx','numpydoc']
+extensions = ['sphinx.ext.autodoc', 'sphinx.ext.viewcode']#,'nbsphinx','numpydoc']
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
