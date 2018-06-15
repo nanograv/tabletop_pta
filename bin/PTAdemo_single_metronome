@@ -17,8 +17,8 @@ from matplotlib.ticker import *#MultipleLocator, FormatStrFormatter, LogLocator
 
 import numpy as np
 
-import sys
-sys.path.append('../')  #Here until we install the package
+import tabletop_pta as tpta
+
 from tabletop_pta import *
 # from .recordpulses import recordpulses
 # from .playpulses import playpulses
@@ -42,6 +42,9 @@ if sys.version_info[0] < 3:
     import Tkinter as Tk
 else:
     import tkinter as Tk
+
+filedir = tpta.__path__ + 'demo_data/'
+
 
 SEPARATOR_COLOR = "#CCCCCC"
 WIDTH = 1100
@@ -82,8 +85,8 @@ var_T2.set(T2)
 var_message = Tk.StringVar()
 
 # default values for variables
-var_metronome1filename.set("m208a")
-var_metronome2filename.set("m184b")
+var_metronome1filename.set(filedir+"m208a")
+var_metronome2filename.set(filedir+"m184b")
 var_metronome1bpm.set(208)
 var_metronome2bpm.set(184)
 
