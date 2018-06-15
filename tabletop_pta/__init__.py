@@ -6,6 +6,7 @@ __author__ = """Jeffrey Shafiq Hazboun"""
 __email__ = 'jeffrey.hazboun@nanograv.org'
 __version__ = '0.1.0'
 
+
 from .recordpulses import recordpulses
 from .playpulses import playpulses
 from .calpulseperiod import calpulseperiod
@@ -21,3 +22,7 @@ from .errsinusoid import errsinusoid
 from .calcorrcoeff import calcorrcoeff
 from .corrvslag import corrvslag
 from .zeropadtimeseries import zeropadtimeseries
+
+import os
+
+__path__ = os.path.dirname(__file__)

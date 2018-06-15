@@ -12,11 +12,5 @@ from tabletop_pta import *
 class TestTabletop_pta(unittest.TestCase):
     """Tests for `tabletop_pta` package."""
 
-    def setUp(self):
-        """Set up test fixtures, if any."""
-
-    def tearDown(self):
-        """Tear down test fixtures, if any."""
-
-    def test_000_something(self):
+    def test_notebook(self):
         """Test something."""
