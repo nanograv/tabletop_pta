@@ -43,7 +43,7 @@ if sys.version_info[0] < 3:
 else:
     import tkinter as Tk
 
-filedir = tpta.__path__ + 'demo_data/'
+filedir = tpta.__path__ + '/demo_data/'
 
 SEPARATOR_COLOR = "#CCCCCC"
 WIDTH = 1250
