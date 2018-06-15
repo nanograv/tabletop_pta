@@ -4,6 +4,7 @@ include HISTORY.rst
 include LICENSE
 include README.rst
 include demo_data/*.txt
+include tabletop_pta/demo_data/*.txt
 
 recursive-include tests *
 recursive-exclude * __pycache__
