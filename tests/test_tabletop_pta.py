@@ -16,7 +16,7 @@ class TestTabletop_pta(unittest.TestCase):
     def test_notebook(self):
         """Test something."""
 
-    def test_playback(self):
-        data_path = tpta.__path__ + '/demo_data/'
-
-        tpta.playpulses(data_path + "m184b.txt")
+    # def test_playback(self):
+    #     data_path = tpta.__path__ + '/demo_data/'
+    #
+    #     tpta.playpulses(data_path + "m184b.txt")
