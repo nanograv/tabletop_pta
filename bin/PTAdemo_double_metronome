@@ -235,7 +235,7 @@ label_estimates.grid(row=5,column=3)
 label_fits = Tk.Label(frame_entry,text="BEST-FIT VALUES (2)")
 label_fits.grid(row=5,column=4)
 
-label_amplitude_est = Tk.Label(frame_entry,text="Amplitude:")
+label_amplitude_est = Tk.Label(frame_entry,text="Amp [usec]:")
 label_amplitude_est.grid(row=6,column=0)
 
 entry_amplitude1_est = Tk.Entry(frame_entry,textvariable=var_amplitude1_est)
@@ -265,7 +265,7 @@ entry_frequency2_est.grid(row=7,column=3)
 entry_frequency2_fit = Tk.Entry(frame_entry,textvariable=var_frequency2_fit)
 entry_frequency2_fit.grid(row=7,column=4)
 
-label_phase_est = Tk.Label(frame_entry,text="Phase [rad]:")
+label_phase_est = Tk.Label(frame_entry,text="Offset [usec]:")
 label_phase_est.grid(row=8,column=0)
 
 entry_phase1_est = Tk.Entry(frame_entry,textvariable=var_phase1_est)
@@ -280,7 +280,7 @@ entry_phase2_est.grid(row=8,column=3)
 entry_phase2_fit = Tk.Entry(frame_entry,textvariable=var_phase2_fit)
 entry_phase2_fit.grid(row=8,column=4)
 
-label_phase_est = Tk.Label(frame_entry,text="Offset [sec]:")
+label_phase_est = Tk.Label(frame_entry,text="Offset [usec]:")
 label_phase_est.grid(row=9,column=0)
 
 entry_phase1_est = Tk.Entry(frame_entry,textvariable=var_offset1_est)
@@ -428,20 +428,20 @@ def func_fitsinusoid():
 
     # load initial estimate of parameters
     pars1 = np.zeros(4)
-    pars1[0] = var_amplitude1_est.get()
+    pars1[0] = 1.0e-6*var_amplitude1_est.get()
     pars1[1] = var_frequency1_est.get()
     pars1[2] = var_phase1_est.get()
-    pars1[3] = var_offset1_est.get()
+    pars1[3] = 1.0e-6*var_offset1_est.get()
 
     # fit sinusoid with constant offset to residuals
     pfit1, pcov1, infodict, message, ier = \
     opt.leastsq(errsinusoid, pars1, args=(residuals1[:,0], residuals1[:,1], errorbars1[:,1]), full_output=1)
 
     # fill best-fit values of parameters
-    var_amplitude1_fit.set(pfit1[0])
+    var_amplitude1_fit.set(1.0e6*pfit1[0])
     var_frequency1_fit.set(pfit1[1])
     var_phase1_fit.set(pfit1[2])
-    var_offset1_fit.set(pfit1[3])
+    var_offset1_fit.set(1.0e6*pfit1[3])
 
     # best-fit sinusoid
     tfit = np.linspace(0, max(residuals1[-1,0], residuals2[-1,0]), 1024)
@@ -460,20 +460,20 @@ def func_fitsinusoid():
     ############
     # load initial estimate of parameters
     pars2 = np.zeros(4)
-    pars2[0] = var_amplitude2_est.get()
+    pars2[0] = 1.0e-6*var_amplitude2_est.get()
     pars2[1] = var_frequency2_est.get()
     pars2[2] = var_phase2_est.get()
-    pars2[3] = var_offset2_est.get()
+    pars2[3] = 1.0e-6*var_offset2_est.get()
 
     # fit sinusoid with constant offset to residuals
     pfit2, pcov2, infodict, message, ier = \
     opt.leastsq(errsinusoid, pars2, args=(residuals2[:,0], residuals2[:,1], errorbars2[:,1]), full_output=1)
 
     # fill best-fit values of parameters
-    var_amplitude2_fit.set(pfit2[0])
+    var_amplitude2_fit.set(1.0e6*pfit2[0])
     var_frequency2_fit.set(pfit2[1])
     var_phase2_fit.set(pfit2[2])
-    var_offset2_fit.set(pfit2[3])
+    var_offset2_fit.set(1.0e6*pfit2[3])
 
     # best-fit sinusoid
     tfit = np.linspace(0, max(residuals1[-1,0], residuals2[-1,0]), 1024)
