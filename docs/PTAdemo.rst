@@ -7,41 +7,39 @@
 .. _PTAdemo:
 
 
-PTAdemo 1 - analyze reference metronome data files
+PTA Demo 1: Analyze reference metronome data files
 ==================================================
 
+The folowing demonstration notebook goes through the various commands
+needed to get profiles from single metronome observations and then to
+analyze the signal from double metronomes to get the correlations that
+reveal the motion of the recording microphone. All of the functionality
+is available in a GUI format by calling the commands
+``PTAdemo_single_metronome`` and ``PTAdemo_double_metronome``.
+
 Record single metronome pulses
-==============================
+------------------------------
 
 .. code:: python
 
     # filenames and beats per minute
-    metfile1 = 'm208a'
-    metfile2 = 'm184b'
-    metfiles = 'm208a184b'
+    path = tpta.__path__ + '/demo_data/'
+    metfile1 = path + 'm208a'
+    metfile2 = path + 'm184b'
+    metfiles = path + 'm208a184b'
     bpm1 = 208
     bpm2 = 184
 
-.. code:: python
-
-    # record pulses for metronome 1
-    #recordpulses(metfile1 + ".txt")
-
-.. code:: python
-
-    # record pulses for metronome 2
-    #recordpulses(metfile2 + ".txt")
-
 Play recorded pulses
-====================
+--------------------
 
 .. code:: python
 
     # sample rate
-    Fs = 22050
+    Fs = 44100
     
     # play recorded sound
-    ts1 = playpulses(metfile1 + ".txt")
+    ts1 = tpta.playpulses(metfile1 + ".txt")
                                                             
     # plot time series
     plt.figure()
@@ -52,7 +50,7 @@ Play recorded pulses
     plt.grid('on')
     
     # play recorded sound
-    ts2 = playpulses(metfile2 + ".txt")
+    ts2 = tpta.playpulses(metfile2 + ".txt")
     
     # plot time series
     plt.subplot(2,1,2)
@@ -67,20 +65,20 @@ Play recorded pulses
 
 
 
-.. image:: PTAdemo_files/PTAdemo_7_0.png
+.. image:: PTAdemo_files/PTAdemo_6_0.png
    :width: 386px
    :height: 277px
 
 
-calculate and plot pulse profiles
-=================================
+Calculate and Plot Pulse Profiles
+---------------------------------
 
 .. code:: python
 
     # metronome 1
-    print 'calculating pulse period and profile of metronome 1...'
-    [profile1, T1] = calpulseprofile(ts1, bpm1)
-    print 'T1 = ', T1, 'sec'
+    print('calculating pulse period and profile of metronome 1...')
+    [profile1, T1] = tpta.calpulseprofile(ts1, bpm1)
+    print('T1 = ', T1, 'sec')
     
     # plot pulse profile
     plt.figure()
@@ -91,13 +89,13 @@ calculate and plot pulse profiles
     plt.grid('on')
     
     # write pulse profile to file
-    outfile1 = metfile1 + "_profile.txt"
+    outfile1 = metfile1 + "_profile_nb.txt"
     np.savetxt(outfile1, profile1)
     
     # metronome 2
-    print 'calculating pulse period and profile of metronome 2...'
-    [profile2, T2] = calpulseprofile(ts2, bpm2)
-    print 'T2 = ', T2, 'sec'
+    print('calculating pulse period and profile of metronome 2...')
+    [profile2, T2] = tpta.calpulseprofile(ts2, bpm2)
+    print('T2 = ', T2, 'sec')
     
     # plot pulse profile
     plt.subplot(2,1,2)
@@ -108,11 +106,11 @@ calculate and plot pulse profiles
     plt.draw()
     
     # write pulse profile to file
-    outfile2 = metfile2 + "_profile.txt"
+    outfile2 = metfile2 + "_profile_nb.txt"
     np.savetxt(outfile2, profile2)
     
     # print to file
-    plt.savefig(metfiles + "_profiles.pdf", bbox_inches='tight')
+    plt.savefig(metfiles + "_profilesb_n.pdf", bbox_inches='tight')
 
 
 .. parsed-literal::
@@ -124,13 +122,13 @@ calculate and plot pulse profiles
 
 
 
-.. image:: PTAdemo_files/PTAdemo_9_1.png
+.. image:: PTAdemo_files/PTAdemo_8_1.png
    :width: 392px
    :height: 277px
 
 
-zoom-in on profiles
-===================
+Zoom-in on Profiles
+-------------------
 
 .. code:: python
 
@@ -155,92 +153,32 @@ zoom-in on profiles
 
 
 
-.. image:: PTAdemo_files/PTAdemo_11_0.png
-   :width: 386px
+.. image:: PTAdemo_files/PTAdemo_10_0.png
+   :width: 387px
    :height: 277px
 
 
-calculate residuals
-===================
+Calculate Residuals
+-------------------
 
 .. code:: python
 
     # calculate residuals for metronome 1
-    template1 = caltemplate(profile1, ts1)
-    [measuredTOAs1, uncertainties1, n01] = calmeasuredTOAs(ts1, template1, T1)
+    template1 = tpta.caltemplate(profile1, ts1)
+    [measuredTOAs1, uncertainties1, n01] = tpta.calmeasuredTOAs(ts1, template1, T1)
     Np1 = len(measuredTOAs1)
-    expectedTOAs1 = calexpectedTOAs(measuredTOAs1[n01-1], n01, Np1, T1)
-    [residuals1, errorbars1] = calresiduals(measuredTOAs1, expectedTOAs1, uncertainties1)
+    expectedTOAs1 = tpta.calexpectedTOAs(measuredTOAs1[n01-1], n01, Np1, T1)
+    [residuals1, errorbars1] = tpta.calresiduals(measuredTOAs1, expectedTOAs1, uncertainties1)
     
     # calculate residuals for metronome 2
-    template2 = caltemplate(profile2, ts2)
-    [measuredTOAs2, uncertainties2, n02] = calmeasuredTOAs(ts2, template2, T2)
+    template2 = tpta.caltemplate(profile2, ts2)
+    [measuredTOAs2, uncertainties2, n02] = tpta.calmeasuredTOAs(ts2, template2, T2)
     Np2 = len(measuredTOAs2)
-    expectedTOAs2 = calexpectedTOAs(measuredTOAs2[n02-1], n02, Np2, T2)
-    [residuals2, errorbars2] = calresiduals(measuredTOAs2, expectedTOAs2, uncertainties2)
+    expectedTOAs2 = tpta.calexpectedTOAs(measuredTOAs2[n02-1], n02, Np2, T2)
+    [residuals2, errorbars2] = tpta.calresiduals(measuredTOAs2, expectedTOAs2, uncertainties2)
 
-
-.. parsed-literal::
-
-    calculating reference TOA
-    reference TOA (n= 3 ) has correlation= 0.969237711201
-    calculating TOA 1
-    calculating TOA 2
-    calculating TOA 3
-    calculating TOA 4
-    calculating TOA 5
-    calculating TOA 6
-    calculating TOA 7
-    calculating TOA 8
-    calculating TOA 9
-    calculating TOA 10
-    calculating TOA 11
-    calculating TOA 12
-    calculating TOA 13
-    calculating TOA 14
-    calculating TOA 15
-    calculating TOA 16
-    calculating TOA 17
-    calculating TOA 18
-    calculating TOA 19
-    calculating TOA 20
-    calculating TOA 21
-    calculating TOA 22
-    calculating TOA 23
-    calculating TOA 24
-    calculating TOA 25
-    calculating TOA 26
-    calculating TOA 27
-    calculating reference TOA
-    reference TOA (n= 10 ) has correlation= 0.988924675784
-    calculating TOA 1
-    calculating TOA 2
-    calculating TOA 3
-    calculating TOA 4
-    calculating TOA 5
-    calculating TOA 6
-    calculating TOA 7
-    calculating TOA 8
-    calculating TOA 9
-    calculating TOA 10
-    calculating TOA 11
-    calculating TOA 12
-    calculating TOA 13
-    calculating TOA 14
-    calculating TOA 15
-    calculating TOA 16
-    calculating TOA 17
-    calculating TOA 18
-    calculating TOA 19
-    calculating TOA 20
-    calculating TOA 21
-    calculating TOA 22
-    calculating TOA 23
-    calculating TOA 24
-
-
-plot residuals
-==============
+Plot Residuals
+--------------
 
 .. code:: python
 
@@ -263,25 +201,25 @@ plot residuals
 
 
 
-.. image:: PTAdemo_files/PTAdemo_15_0.png
+.. image:: PTAdemo_files/PTAdemo_14_0.png
    :width: 392px
    :height: 277px
 
 
-calculate and plot detrended residuals
-======================================
+Calculate and Plot Detrended Residuals
+--------------------------------------
 
 .. code:: python
 
-    [dtresiduals1, b, m] = detrend(residuals1, errorbars1);
+    [dtresiduals1, b, m] = tpta.detrend(residuals1, errorbars1);
     N1 = len(residuals1[:,0])
     T1new = T1 + m*(residuals1[-1,0]-residuals1[0,0])/(N1-1)
-    print "improved pulse period estimate of metronome 1 =", T1new, "sec"
+    print("improved pulse period estimate of metronome 1 =", T1new, "sec")
     
-    [dtresiduals2, b, m] = detrend(residuals2, errorbars2);
+    [dtresiduals2, b, m] = tpta.detrend(residuals2, errorbars2);
     N2 = len(residuals2[:,0])
     T2new = T2 + m*(residuals2[-1,0]-residuals2[0,0])/(N2-1)
-    print "improved pulse period estimate of metronome 2 =", T2new, "sec"
+    print("improved pulse period estimate of metronome 2 =", T2new, "sec")
     
     # plot residuals
     plt.figure()
@@ -310,16 +248,16 @@ calculate and plot detrended residuals
 
 
 
-.. image:: PTAdemo_files/PTAdemo_17_1.png
+.. image:: PTAdemo_files/PTAdemo_16_1.png
    :width: 397px
    :height: 277px
 
 
-PTAdemo 2 - for double metronome data files
-===========================================
+PTA Demo 2 - Double-Metronome Correlations
+==========================================
 
-record double-metronome data
-============================
+Record Double-Metronome Data
+----------------------------
 
 .. code:: python
 
@@ -332,16 +270,17 @@ record double-metronome data
 
 .. code:: python
 
-    # record pulses from both metronomes
-    #recordpulses(tsfile + ".txt")
+    #brecord pulses from both metronomes
+    tpta.recordpulses(tsfile + ".txt")
 
-play recorded pulses
-====================
+Play Recorded Pulses
+--------------------
 
 .. code:: python
 
     # play recorded sound
-    ts = playpulses(tsfile + ".txt")
+    
+    ts = tpta.playpulses(path + tsfile + ".txt")
                                                             
     # plot time series
     plt.figure()
@@ -356,13 +295,13 @@ play recorded pulses
 
 
 
-.. image:: PTAdemo_files/PTAdemo_23_0.png
+.. image:: PTAdemo_files/PTAdemo_22_0.png
    :width: 402px
    :height: 263px
 
 
-calculate residuals
-===================
+Calculate Residuals
+-------------------
 
 .. code:: python
 
@@ -371,81 +310,21 @@ calculate residuals
     profile2 = np.loadtxt(profilefile2 + ".txt")
     
     # calculate residuals for metronome 1
-    template1 = caltemplate(profile1, ts)
-    [measuredTOAs1, uncertainties1, n01] = calmeasuredTOAs(ts, template1, T1)
+    template1 = tpta.caltemplate(profile1, ts)
+    [measuredTOAs1, uncertainties1, n01] = tpta.calmeasuredTOAs(ts, template1, T1)
     Np1 = len(measuredTOAs1)
-    expectedTOAs1 = calexpectedTOAs(measuredTOAs1[n01-1], n01, Np1, T1)
-    [residuals1, errorbars1] = calresiduals(measuredTOAs1, expectedTOAs1, uncertainties1)
+    expectedTOAs1 = tpta.calexpectedTOAs(measuredTOAs1[n01-1], n01, Np1, T1)
+    [residuals1, errorbars1] = tpta.calresiduals(measuredTOAs1, expectedTOAs1, uncertainties1)
     
     # calculate residuals for metronome 2
-    template2 = caltemplate(profile2, ts)
-    [measuredTOAs2, uncertainties2, n02] = calmeasuredTOAs(ts, template2, T2)
+    template2 = tpta.caltemplate(profile2, ts)
+    [measuredTOAs2, uncertainties2, n02] = tpta.calmeasuredTOAs(ts, template2, T2)
     Np2 = len(measuredTOAs2)
-    expectedTOAs2 = calexpectedTOAs(measuredTOAs2[n02-1], n02, Np2, T2)
-    [residuals2, errorbars2] = calresiduals(measuredTOAs2, expectedTOAs2, uncertainties2)
+    expectedTOAs2 = tpta.calexpectedTOAs(measuredTOAs2[n02-1], n02, Np2, T2)
+    [residuals2, errorbars2] = tpta.calresiduals(measuredTOAs2, expectedTOAs2, uncertainties2)
 
-
-.. parsed-literal::
-
-    calculating reference TOA
-    reference TOA (n= 17 ) has correlation= 0.420626247549
-    calculating TOA 1
-    calculating TOA 2
-    calculating TOA 3
-    calculating TOA 4
-    calculating TOA 5
-    calculating TOA 6
-    calculating TOA 7
-    calculating TOA 8
-    calculating TOA 9
-    calculating TOA 10
-    calculating TOA 11
-    calculating TOA 12
-    calculating TOA 13
-    calculating TOA 14
-    calculating TOA 15
-    calculating TOA 16
-    calculating TOA 17
-    calculating TOA 18
-    calculating TOA 19
-    calculating TOA 20
-    calculating TOA 21
-    calculating TOA 22
-    calculating TOA 23
-    calculating TOA 24
-    calculating TOA 25
-    calculating TOA 26
-    calculating TOA 27
-    calculating reference TOA
-    reference TOA (n= 17 ) has correlation= 0.37735929133
-    calculating TOA 1
-    calculating TOA 2
-    calculating TOA 3
-    calculating TOA 4
-    calculating TOA 5
-    calculating TOA 6
-    calculating TOA 7
-    calculating TOA 8
-    calculating TOA 9
-    calculating TOA 10
-    calculating TOA 11
-    calculating TOA 12
-    calculating TOA 13
-    calculating TOA 14
-    calculating TOA 15
-    calculating TOA 16
-    calculating TOA 17
-    calculating TOA 18
-    calculating TOA 19
-    calculating TOA 20
-    calculating TOA 21
-    calculating TOA 22
-    calculating TOA 23
-    calculating TOA 24
-
-
-plot residuals
-==============
+Plot Residuals
+--------------
 
 .. code:: python
 
@@ -469,13 +348,13 @@ plot residuals
 
 
 
-.. image:: PTAdemo_files/PTAdemo_27_0.png
+.. image:: PTAdemo_files/PTAdemo_26_0.png
    :width: 401px
    :height: 277px
 
 
-fit sinusoid with constant offset to residuals, then plot
-=========================================================
+Fit Sinusoid with Constant Offset to Residuals and Plot
+-------------------------------------------------------
 
 .. code:: python
 
@@ -492,7 +371,7 @@ fit sinusoid with constant offset to residuals, then plot
     pars1[2] = p3
     pars1[3] = p4
     
-    pfit1, pcov1, infodict, message, ier = opt.leastsq(errsinusoid, pars1, args=(residuals1[:,0], residuals1[:,1], errorbars1[:,1]), full_output=1)
+    pfit1, pcov1, infodict, message, ier = opt.leastsq(tpta.errsinusoid, pars1, args=(residuals1[:,0], residuals1[:,1], errorbars1[:,1]), full_output=1)
     
     # default parameter choices
     p1 = 2e-4
@@ -507,7 +386,7 @@ fit sinusoid with constant offset to residuals, then plot
     pars2[2] = p3
     pars2[3] = p4
     
-    pfit2, pcov2, infodict, message, ier = opt.leastsq(errsinusoid, pars2, args=(residuals2[:,0], residuals2[:,1], errorbars2[:,1]), full_output=1)
+    pfit2, pcov2, infodict, message, ier = opt.leastsq(tpta.errsinusoid, pars2, args=(residuals2[:,0], residuals2[:,1], errorbars2[:,1]), full_output=1)
     
     # best fit sinusoids
     tfit = np.linspace(0, max(residuals1[-1,0], residuals2[-1,0]), 1024)
@@ -544,21 +423,22 @@ fit sinusoid with constant offset to residuals, then plot
 
 
 
-.. image:: PTAdemo_files/PTAdemo_29_0.png
+.. image:: PTAdemo_files/PTAdemo_28_0.png
    :width: 401px
    :height: 277px
 
 
-calculate correlation coefficient
-=================================
+Calculate Correlation Coefficient
+---------------------------------
 
 .. code:: python
 
-    rhox, rhoy, rhoxy = calcorrcoeff(yfit1, yfit2)
-    print 'correlation coeff = ', rhoxy
+    rhox, rhoy, rhoxy = tpta.calcorrcoeff(yfit1, yfit2)
+    print('correlation coeff = ', rhoxy)
 
 
 .. parsed-literal::
 
     correlation coeff =  -0.724534807671
+
 
