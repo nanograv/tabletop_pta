@@ -38,17 +38,39 @@ above to install `PortAudio`.
 Once `PortAudio` and `PyAudio` are installed you can install the `tabletop_pta`
 package with a simple call to `pip`:
 
-`pip install tabletop_pta`
+.. code-block:: python
+  pip install tabletop_pta
 
 Alternatively, one can install directly from the downloaded GitHub files. First
 clone the repository.
 
-`git clone https://github.com/nanograv/tabletop_pta.git`
+.. code-block:: python
+  git clone https://github.com/nanograv/tabletop_pta.git
 
 Then go into the `tabletop_pta` directory and run
 
-`python setup.py install`
+.. code-block:: python
+  python setup.py install
 
+Publication
+-----------
+This work is featured in a publication_, currently released on the ArXiv. If you
+would like to reference this work please use the following attribution:
+
+.. code-block:: python
+  @article{Lam:2018wbx,
+        author         = "Lam, Michael T. and Romano, Joseph D. and Key, Joey S.
+                          and Normandin, Marc and Hazboun, Jeffrey S.",
+        title          = "{An Acoustical Analogue of a Galactic-scale
+                          Gravitational-Wave Detector}",
+        year           = "2018",
+        eprint         = "1803.05285",
+        archivePrefix  = "arXiv",
+        primaryClass   = "physics.ed-ph",
+        SLACcitation   = "%%CITATION = ARXIV:1803.05285;%%"
+  }
+
+.. _publication: https://arxiv.org/abs/1803.05285
 Features
 --------
 
@@ -65,6 +87,7 @@ Credits
 -------
 
 This package was created with Cookiecutter_ and the `audreyr/cookiecutter-pypackage`_ project template.
+
 
 .. _Cookiecutter: https://github.com/audreyr/cookiecutter
 .. _`audreyr/cookiecutter-pypackage`: https://github.com/audreyr/cookiecutter-pypackage
