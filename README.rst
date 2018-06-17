@@ -38,26 +38,25 @@ above to install `PortAudio`.
 Once `PortAudio` and `PyAudio` are installed you can install the `tabletop_pta`
 package with a simple call to `pip`:
 
-.. code-block:: python
-  pip install tabletop_pta
+``pip install tabletop_pta``
 
 Alternatively, one can install directly from the downloaded GitHub files. First
 clone the repository.
 
-.. code-block:: python
-  git clone https://github.com/nanograv/tabletop_pta.git
+
+``git clone https://github.com/nanograv/tabletop_pta.git``
 
 Then go into the `tabletop_pta` directory and run
 
-.. code-block:: python
-  python setup.py install
+
+``python setup.py install``
 
 Publication
 -----------
 This work is featured in a publication_, currently released on the ArXiv. If you
 would like to reference this work please use the following attribution:
 
-.. code-block:: python
+``
   @article{Lam:2018wbx,
         author         = "Lam, Michael T. and Romano, Joseph D. and Key, Joey S.
                           and Normandin, Marc and Hazboun, Jeffrey S.",
@@ -69,7 +68,7 @@ would like to reference this work please use the following attribution:
         primaryClass   = "physics.ed-ph",
         SLACcitation   = "%%CITATION = ARXIV:1803.05285;%%"
   }
-
+``
 .. _publication: https://arxiv.org/abs/1803.05285
 Features
 --------
