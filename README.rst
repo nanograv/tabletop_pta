@@ -31,8 +31,21 @@ pulses. This includes PyAudio and the PortAudio c-libraries it is based on.
 
 PyAudio: https://people.csail.mit.edu/hubert/pyaudio/ (And PortAudio Libraries)
 
-After installing those requirements got to the directory where `~/tabletop_pta/`
-can be found and run
+Note: That the PortAudio libraries are not installed when PyAudio (which depends
+on PortAUdio) is installed. You must follow the instructions found in the link
+above to install `PortAudio`.
+
+Once `PortAudio` and `PyAudio` are installed you can install the `tabletop_pta`
+package with a simple call to `pip`:
+
+`pip install tabletop_pta`
+
+Alternatively, one can install directly from the downloaded GitHub files. First
+clone the repository.
+
+`git clone https://github.com/nanograv/tabletop_pta.git`
+
+Then go into the `tabletop_pta` directory and run
 
 `python setup.py install`
 
