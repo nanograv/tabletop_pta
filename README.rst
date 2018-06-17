@@ -57,7 +57,9 @@ This work is featured in a publication_, currently released on the ArXiv. If you
 would like to reference this work please use the following attribution:
 
 .. _publication: https://arxiv.org/abs/1803.05285
-::
+
+.. code-block:: tex
+
   @article{Lam:2018wbx,
         author         = "Lam, Michael T. and Romano, Joseph D. and Key, Joey S.
                           and Normandin, Marc and Hazboun, Jeffrey S.",
