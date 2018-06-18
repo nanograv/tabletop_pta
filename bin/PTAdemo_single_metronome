@@ -20,21 +20,6 @@ import numpy as np
 import tabletop_pta as tpta
 
 from tabletop_pta import *
-# from .recordpulses import recordpulses
-# from .playpulses import playpulses
-# from .calpulseperiod import calpulseperiod
-# from .calpulseprofile import calpulseprofile
-# from .caltemplate import caltemplate
-# from .foldtimeseries import foldtimeseries
-# from .correlate import correlate
-# from .calmeasuredTOAs import calmeasuredTOAs
-# from .calexpectedTOAs import calexpectedTOAs
-# from .calresiduals import calresiduals
-# from .detrend import detrend
-# from .errsinusoid import errsinusoid
-# from .calcorrcoeff import calcorrcoeff
-# from .corrvslag import corrvslag
-# from .zeropadtimeseries import zeropadtimeseries
 
 import sys
 
@@ -85,8 +70,8 @@ var_T2.set(T2)
 var_message = Tk.StringVar()
 
 # default values for variables
-var_metronome1filename.set(filedir+"m208a")
-var_metronome2filename.set(filedir+"m184b")
+var_metronome1filename.set("m208a")
+var_metronome2filename.set("m184b")
 var_metronome1bpm.set(208)
 var_metronome2bpm.set(184)
 
@@ -246,13 +231,13 @@ def func_record(value=1):
         var_message.set("recording data for metronome 1...")
         root.update()
 
-        recordpulses(var_metronome1filename.get()+".txt")
+        recordpulses(filedir+var_metronome1filename.get()+".txt")
 
     if value == 2:
         var_message.set("recording data for metronome 2...")
         root.update()
 
-        recordpulses(var_metronome2filename.get()+".txt")
+        recordpulses(filedir+var_metronome2filename.get()+".txt")
 
     var_message.set("finished recording data")
     root.update()
@@ -265,7 +250,7 @@ def func_playback(value=1):
         var_message.set("playing back recorded data for metronome 1...")
         root.update()
 
-        ts1 = playpulses(var_metronome1filename.get()+".txt")
+        ts1 = playpulses(filedir+var_metronome1filename.get()+".txt")
         ax_pulse1.cla()
         ax_pulse1.plot(ts1[:,0], ts1[:,1])
         redraw_axes()
@@ -281,7 +266,7 @@ def func_playback(value=1):
         var_message.set("playing back recorded data for metronome 2...")
         root.update()
 
-        ts2 = playpulses(var_metronome2filename.get()+".txt")
+        ts2 = playpulses(filedir+var_metronome2filename.get()+".txt")
         ax_pulse2.cla()
         ax_pulse2.plot(ts2[:,0], ts2[:,1])
         redraw_axes()
@@ -300,7 +285,7 @@ def func_calprofile(value=1):
         root.update()
 
         try:
-            profile1 = np.loadtxt(var_metronome1filename.get()+"_profile.txt")
+            profile1 = np.loadtxt(filedir+var_metronome1filename.get()+"_profile.txt")
         except:
             [profile1, T1] = calpulseprofile(ts1, var_metronome1bpm.get())
             print('T1 = ', T1, 'sec')
@@ -325,7 +310,7 @@ def func_calprofile(value=1):
         root.update()
 
         try:
-            profile2 = np.loadtxt(var_metronome2filename.get()+"_profile.txt")
+            profile2 = np.loadtxt(filedir+var_metronome2filename.get()+"_profile.txt")
         except:
             [profile2, T2] = calpulseprofile(ts2, var_metronome2bpm.get())
             print('T2 = ', T2, 'sec')
