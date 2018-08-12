@@ -12,6 +12,10 @@ def playpulses(filename):
     the time-series data is returned as a [Ntx2] array ts
     '''
 
+
+    # first construct wavfile
+    ts = np.loadtxt(filename)
+
     # parameters
     CHUNK = 1024
     FORMAT = pyaudio.paInt16
@@ -19,8 +23,6 @@ def playpulses(filename):
     RATE = 44100 #22050 #
     deltaT = 1.0/RATE
 
-    # first construct wavfile
-    ts = np.loadtxt(filename)
     scaled = np.int16(ts[:,1] * 32767)
     wav.write('temp.wav', RATE, scaled)
 
