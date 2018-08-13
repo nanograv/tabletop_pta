@@ -16,6 +16,7 @@ from matplotlib.ticker import *#MultipleLocator, FormatStrFormatter, LogLocator
 #from matplotlib.widgets import Slider, Button, RadioButtons
 
 import numpy as np
+import scipy.optimize as opt
 
 import tabletop_pta as tpta
 
@@ -36,7 +37,7 @@ from tabletop_pta import *
 # from .corrvslag import corrvslag
 # from .zeropadtimeseries import zeropadtimeseries
 
-#import sys
+import sys
 
 if sys.version_info[0] < 3:
     import Tkinter as Tk
@@ -75,6 +76,7 @@ root = Tk.Tk()
 root.geometry('%ix%i+100+100'%(WIDTH,HEIGHT)) #Not sure why grid is failing
 root.wm_title("Double-Metronome Pulse Analysis")
 
+var_root_dir = Tk.StringVar()
 var_timeseriesfilename = Tk.StringVar()
 var_profile1filename = Tk.StringVar()
 var_profile2filename = Tk.StringVar()
@@ -100,9 +102,10 @@ var_corrcoeff = Tk.DoubleVar()
 var_message = Tk.StringVar()
 
 # default values for variables
-var_timeseriesfilename.set(filedir+"m208a184b0")
-var_profile1filename.set(filedir+"m208a_profile")
-var_profile2filename.set(filedir+"m184b_profile")
+var_root_dir.set(filedir)
+var_timeseriesfilename.set("m208a184b0")
+var_profile1filename.set("m208a_profile")
+var_profile2filename.set("m184b_profile")
 var_T1.set(T1)
 var_T2.set(T2)
 var_amplitude1_est.set(100) #microsec
@@ -193,110 +196,116 @@ frame_entry.grid(row=1,column=0)
 label_filenames = Tk.Label(frame_entry,text="FILENAMES")
 label_filenames.grid(row=0,column=1)
 
+label_file_dir = Tk.Label(frame_entry,text="Root Directory:")
+label_file_dir.grid(row=1,column=0)
+
+entry_file_dir = Tk.Entry(frame_entry,textvariable = var_root_dir)
+entry_file_dir.grid(row=1,column=1,columnspan=1)
+
 label_timeseriesfilename = Tk.Label(frame_entry,text="Data file:")
-label_timeseriesfilename.grid(row=1,column=0)
+label_timeseriesfilename.grid(row=2,column=0)
 
 entry_timeseriesfilename = Tk.Entry(frame_entry,textvariable=var_timeseriesfilename)
-entry_timeseriesfilename.grid(row=1,column=1)
+entry_timeseriesfilename.grid(row=2,column=1)
 
 label_profile1filename = Tk.Label(frame_entry,text="Profile 1:")
-label_profile1filename.grid(row=2,column=0)
+label_profile1filename.grid(row=3,column=0)
 
 entry_profile1filename = Tk.Entry(frame_entry,textvariable=var_profile1filename)
-entry_profile1filename.grid(row=2,column=1)
+entry_profile1filename.grid(row=3,column=1)
 
 label_T1 = Tk.Label(frame_entry,text="Pulse period [s]:")
-label_T1.grid(row=2,column=2)
+label_T1.grid(row=3,column=2)
 
 entry_T1 = Tk.Entry(frame_entry,textvariable=var_T1)
-entry_T1.grid(row=2,column=3)
+entry_T1.grid(row=3,column=3)
 
 label_profile2filename = Tk.Label(frame_entry,text="Profile 2:")
-label_profile2filename.grid(row=3,column=0)
+label_profile2filename.grid(row=4,column=0)
 
 entry_profile2filename = Tk.Entry(frame_entry,textvariable=var_profile2filename)
-entry_profile2filename.grid(row=3,column=1)
+entry_profile2filename.grid(row=4,column=1)
 
 label_T2 = Tk.Label(frame_entry,text="Pulse period [s]:")
-label_T2.grid(row=3,column=2)
+label_T2.grid(row=4,column=2)
 
 entry_T2 = Tk.Entry(frame_entry,textvariable=var_T2)
-entry_T2.grid(row=3,column=3)
+entry_T2.grid(row=4,column=3)
 
 label_blank = Tk.Label(frame_entry,text=" ")
-label_blank.grid(row=4,column=1,columnspan=4)
+label_blank.grid(row=5,column=1,columnspan=4)
 
 label_estimates = Tk.Label(frame_entry,text="INITIAL ESTIMATES (1)")
-label_estimates.grid(row=5,column=1)
+label_estimates.grid(row=6,column=1)
 
 label_fits = Tk.Label(frame_entry,text="BEST-FIT VALUES (1)")
-label_fits.grid(row=5,column=2)
+label_fits.grid(row=6,column=2)
 
 label_estimates = Tk.Label(frame_entry,text="INITIAL ESTIMATES (2)")
-label_estimates.grid(row=5,column=3)
+label_estimates.grid(row=6,column=3)
 
 label_fits = Tk.Label(frame_entry,text="BEST-FIT VALUES (2)")
-label_fits.grid(row=5,column=4)
+label_fits.grid(row=6,column=4)
 
 label_amplitude_est = Tk.Label(frame_entry,text="Amp [usec]:")
-label_amplitude_est.grid(row=6,column=0)
+label_amplitude_est.grid(row=7,column=0)
 
 entry_amplitude1_est = Tk.Entry(frame_entry,textvariable=var_amplitude1_est)
-entry_amplitude1_est.grid(row=6,column=1)
+entry_amplitude1_est.grid(row=7,column=1)
 
 entry_amplitude1_fit = Tk.Entry(frame_entry,textvariable=var_amplitude1_fit)
-entry_amplitude1_fit.grid(row=6,column=2)
+entry_amplitude1_fit.grid(row=7,column=2)
 
 entry_amplitude2_est = Tk.Entry(frame_entry,textvariable=var_amplitude2_est)
-entry_amplitude2_est.grid(row=6,column=3)
+entry_amplitude2_est.grid(row=7,column=3)
 
 entry_amplitude2_fit = Tk.Entry(frame_entry,textvariable=var_amplitude2_fit)
-entry_amplitude2_fit.grid(row=6,column=4)
+entry_amplitude2_fit.grid(row=7,column=4)
 
 label_frequency_est = Tk.Label(frame_entry,text="Freq [Hz]:")
-label_frequency_est.grid(row=7,column=0)
+label_frequency_est.grid(row=8,column=0)
 
 entry_frequency1_est = Tk.Entry(frame_entry,textvariable=var_frequency1_est)
-entry_frequency1_est.grid(row=7,column=1)
+entry_frequency1_est.grid(row=8,column=1)
 
 entry_frequency1_fit = Tk.Entry(frame_entry,textvariable=var_frequency1_fit)
-entry_frequency1_fit.grid(row=7,column=2)
+entry_frequency1_fit.grid(row=8,column=2)
 
 entry_frequency2_est = Tk.Entry(frame_entry,textvariable=var_frequency2_est)
-entry_frequency2_est.grid(row=7,column=3)
+entry_frequency2_est.grid(row=8,column=3)
 
 entry_frequency2_fit = Tk.Entry(frame_entry,textvariable=var_frequency2_fit)
-entry_frequency2_fit.grid(row=7,column=4)
-
-label_phase_est = Tk.Label(frame_entry,text="Offset [usec]:")
-label_phase_est.grid(row=8,column=0)
-
-entry_phase1_est = Tk.Entry(frame_entry,textvariable=var_phase1_est)
-entry_phase1_est.grid(row=8,column=1)
-
-entry_phase1_fit = Tk.Entry(frame_entry,textvariable=var_phase1_fit)
-entry_phase1_fit.grid(row=8,column=2)
-
-entry_phase2_est = Tk.Entry(frame_entry,textvariable=var_phase2_est)
-entry_phase2_est.grid(row=8,column=3)
-
-entry_phase2_fit = Tk.Entry(frame_entry,textvariable=var_phase2_fit)
-entry_phase2_fit.grid(row=8,column=4)
+entry_frequency2_fit.grid(row=8,column=4)
 
 label_phase_est = Tk.Label(frame_entry,text="Offset [usec]:")
 label_phase_est.grid(row=9,column=0)
 
-entry_phase1_est = Tk.Entry(frame_entry,textvariable=var_offset1_est)
+entry_phase1_est = Tk.Entry(frame_entry,textvariable=var_phase1_est)
 entry_phase1_est.grid(row=9,column=1)
 
-entry_phase1_fit = Tk.Entry(frame_entry,textvariable=var_offset1_fit)
+entry_phase1_fit = Tk.Entry(frame_entry,textvariable=var_phase1_fit)
 entry_phase1_fit.grid(row=9,column=2)
 
-entry_phase2_est = Tk.Entry(frame_entry,textvariable=var_offset2_est)
+entry_phase2_est = Tk.Entry(frame_entry,textvariable=var_phase2_est)
 entry_phase2_est.grid(row=9,column=3)
 
-entry_phase2_fit = Tk.Entry(frame_entry,textvariable=var_offset2_fit)
+entry_phase2_fit = Tk.Entry(frame_entry,textvariable=var_phase2_fit)
 entry_phase2_fit.grid(row=9,column=4)
+
+label_phase_est = Tk.Label(frame_entry,text="Offset [usec]:")
+label_phase_est.grid(row=10,column=0)
+
+entry_phase1_est = Tk.Entry(frame_entry,textvariable=var_offset1_est)
+entry_phase1_est.grid(row=10,column=1)
+
+entry_phase1_fit = Tk.Entry(frame_entry,textvariable=var_offset1_fit)
+entry_phase1_fit.grid(row=10,column=2)
+
+entry_phase2_est = Tk.Entry(frame_entry,textvariable=var_offset2_est)
+entry_phase2_est.grid(row=10,column=3)
+
+entry_phase2_fit = Tk.Entry(frame_entry,textvariable=var_offset2_fit)
+entry_phase2_fit.grid(row=10,column=4)
 
 
 ## ----------
@@ -375,8 +384,8 @@ def func_loadprofiles():
     global profile1, profile2
 
     # load profiles
-    profile1 = np.loadtxt(var_profile1filename.get()+".txt")
-    profile2 = np.loadtxt(var_profile2filename.get()+".txt")
+    profile1 = np.loadtxt(var_root_dir.get()+var_profile1filename.get()+".txt")
+    profile2 = np.loadtxt(var_root_dir.get()+var_profile2filename.get()+".txt")
 
     # plot profiles
     ax_profile1.cla()
