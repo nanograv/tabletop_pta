@@ -1,6 +1,6 @@
 from __future__ import division, print_function
 import numpy as np
-#import matplotlib.pyplot as plt
+import matplotlib.pyplot as plt
 import scipy.optimize as opt
 from .correlate import correlate
 from .corrvslag import corrvslag
@@ -156,19 +156,19 @@ def calmeasuredTOAs(ts, template, Tp):
             plt.figure()
             plt.plot(ts[indices,0], C[indices], '-*r', label = 'correlation')
             plt.plot(ts[indices,0], ts[indices,1], '-*b', label = 'time series')
-        if ~badTOA:
-            plt.plot(tauhat[ii]-ts[idx,0]+ts[idx:indices[-1]+1,0],
-                     template[0:len(indices)-(idx-indices[0]),1],
-			         '-*g', label = 'template')
-            plt.axhline(y = template[0,1], color='k')# starting value of pulse template
-            TOAexp = t0 + (ii+1-n0)*Tp
-            plt.axvline(x = TOAexp, color='b')
-            plt.axvline(x = tauhat[ii], color='r')
-            plt.xlabel('time (sec)')
-            plt.ylabel('correlation')
-            plt.legend(loc = 'best')
-            plt.title('n = ' + np.str(ii+1))
-            print(tauhat[ii]-TOAexp)
+            if ~badTOA:
+                plt.plot(tauhat[ii]-ts[idx,0]+ts[idx:indices[-1]+1,0],
+                         template[0:len(indices)-(idx-indices[0]),1],
+    			         '-*g', label = 'template')
+                plt.axhline(y = template[0,1], color='k')# starting value of pulse template
+                TOAexp = t0 + (ii+1-n0)*Tp
+                plt.axvline(x = TOAexp, color='b')
+                plt.axvline(x = tauhat[ii], color='r')
+                plt.xlabel('time (sec)')
+                plt.ylabel('correlation')
+                plt.legend(loc = 'best')
+                plt.title('n = ' + np.str(ii+1))
+                print(tauhat[ii]-TOAexp)
             #input('type any key to continue')
         # END DEBUG SECTION
 
