@@ -46,7 +46,8 @@ else:
 filedir = tpta.__path__ + '/demo_data/'
 
 SEPARATOR_COLOR = "#CCCCCC"
-WIDTH = 1250
+#WIDTH = 1250
+WIDTH = 1350
 HEIGHT = 680
 
 PLOTWIDTH = 6
@@ -54,10 +55,6 @@ PLOTHEIGHT = 3.5
 
 # initialize some global variables
 ts = np.array([])
-T1 = 0.2885680
-T2 = 0.3260988
-#T1 = 0.299991
-#T2 = 0.499950
 profile1 = np.array([])
 profile2 = np.array([])
 residuals1 = np.array([])
@@ -66,6 +63,12 @@ errorbars1 = np.array([])
 errorbars2 = np.array([])
 yfit1 = np.array([])
 yfit2 = np.array([])
+
+# default values for periods
+T1 = 0.2885680
+T2 = 0.3260988
+#T1 = 0.299991
+#T2 = 0.499950
 
 root = Tk.Tk()
 #root.geometry('+1400+100')
@@ -125,7 +128,8 @@ label_title.grid(row=0)
 separator = Tk.Frame(frame_main,width=WIDTH,height=2,bg=SEPARATOR_COLOR,bd=1, relief=Tk.SUNKEN).grid(row=1,pady=2)
 
 frame_plot = Tk.Frame(frame_main) #plotframe contains all of the plots and entries
-frame_plot.grid(row=2)
+#frame_plot.grid(row=2)
+frame_plot.grid(row=2, sticky='W', padx=2)
 
 separator = Tk.Frame(frame_main,width=WIDTH,height=2,bg=SEPARATOR_COLOR,bd=1, relief=Tk.SUNKEN).grid(row=3,pady=2)
 
@@ -305,7 +309,8 @@ fig_residual = Figure(figsize=(PLOTWIDTH,PLOTHEIGHT), dpi=75)
 ax_residual1 = fig_residual.add_subplot(211) #just for show
 ax_residual2 = fig_residual.add_subplot(212)
 
-fig_residual.subplots_adjust(wspace=0.5,left=0.30,bottom=0.20) #left allows enough space for the yaxis label to be read.
+#fig_residual.subplots_adjust(wspace=0.5,left=0.30,bottom=0.20) #left allows enough space for the yaxis label to be read.
+fig_residual.subplots_adjust(wspace=0.5,left=0.20,bottom=0.20) #left allows enough space for the yaxis label to be read.
 canvas_residual = FigureCanvasTkAgg(fig_residual, frame_residual)
 canvas_residual.get_tk_widget().grid(row=0)#,side=Tk.TOP)#,fill='x')
 canvas_residual.show()
@@ -386,7 +391,11 @@ def func_loadprofiles():
 
 def func_calresiduals():
 
-    global ts, T1, T2, residuals1, residuals2, errorbars1, errorbars2
+    global ts, residuals1, residuals2, errorbars1, errorbars2
+
+    # get period from text entry boxes
+    T1 = np.float(var_T1.get())
+    T2 = np.float(var_T2.get())
 
     # calculate residuals
     var_message.set("calculating residuals for metronome 1...")
