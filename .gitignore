@@ -102,4 +102,4 @@ ENV/
 
 # Other
 #.editorconfig
-#.DS_Store
+.DS_Store
