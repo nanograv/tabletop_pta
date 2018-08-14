@@ -54,10 +54,6 @@ PLOTHEIGHT = 3.5
 # initialize some global variables
 ts1 = np.array([])
 ts2 = np.array([])
-T1 = 0.2885
-T2 = 0.3261
-#T1 = 0.299992
-#T2 = 0.499950
 profile1 = np.array([])
 profile2 = np.array([])
 residuals1 = np.array([])
@@ -67,11 +63,19 @@ dtresiduals2 = np.array([])
 errorbars1 = np.array([])
 errorbars2 = np.array([])
 
+# default values for periods
+T1 = 0.2885
+T2 = 0.3261
+#T1 = 0.299992
+#T2 = 0.499950
+
 root = Tk.Tk()
 #root.geometry('+1400+100')
 root.geometry('%ix%i+100+100'%(WIDTH,HEIGHT)) #Not sure why grid is failing
 root.wm_title("Single-Metronome Pulse Analysis")
 
+
+var_root_dir = Tk.StringVar()
 var_metronome1filename = Tk.StringVar()
 var_metronome2filename = Tk.StringVar()
 var_metronome1bpm = Tk.DoubleVar()
@@ -83,8 +87,9 @@ var_T2.set(T2)
 var_message = Tk.StringVar()
 
 # default values for variables
-var_metronome1filename.set(filedir+"m208a")
-var_metronome2filename.set(filedir+"m184b")
+var_root_dir.set(filedir)
+var_metronome1filename.set("m208a")
+var_metronome2filename.set("m184b")
 var_metronome1bpm.set(208)
 var_metronome2bpm.set(184)
 
@@ -163,29 +168,36 @@ frame_entry.grid(row=1,column=0)
 label_pulse_data_filenames = Tk.Label(frame_entry,text="PULSE DATA FILENAMES")
 label_pulse_data_filenames.grid(row=0,column=1)
 
+label_file_dir = Tk.Label(frame_entry,text="Root Directory:")
+label_file_dir.grid(row=1,column=0)
+
+entry_file_dir = Tk.Entry(frame_entry,textvariable = var_root_dir)
+entry_file_dir.grid(row=1,column=1,columnspan=3)
+
 label_metronome1 = Tk.Label(frame_entry,text="Metronome 1:")
-label_metronome1.grid(row=1,column=0)
+label_metronome1.grid(row=2,column=0)
 
 entry_metronome1 = Tk.Entry(frame_entry,textvariable=var_metronome1filename)
-entry_metronome1.grid(row=1,column=1)
+entry_metronome1.grid(row=2,column=1)
 
 label_bpm1 = Tk.Label(frame_entry,text="bpm:")
-label_bpm1.grid(row=1,column=2)
+label_bpm1.grid(row=2,column=2)
 
 entry_bpm1 = Tk.Entry(frame_entry,textvariable=var_metronome1bpm)
-entry_bpm1.grid(row=1,column=3)
+entry_bpm1.grid(row=2,column=3)
 
 label_metronome2 = Tk.Label(frame_entry,text="Metronome 2:")
-label_metronome2.grid(row=2,column=0)
+label_metronome2.grid(row=3,column=0)
 
 entry_metronome2 = Tk.Entry(frame_entry,textvariable=var_metronome2filename)
-entry_metronome2.grid(row=2,column=1)
+entry_metronome2.grid(row=3,column=1)
 
 label_bpm2 = Tk.Label(frame_entry,text="bpm:")
-label_bpm2.grid(row=2,column=2)
+label_bpm2.grid(row=3,column=2)
 
 entry_bpm2 = Tk.Entry(frame_entry,textvariable=var_metronome2bpm)
-entry_bpm2.grid(row=2,column=3)
+entry_bpm2.grid(row=3,column=3)
+
 
 #label_status = Tk.Label(frame_entry,textvariable=var_status)
 #label_status.grid(row=3, column=1)
@@ -199,7 +211,8 @@ fig_residual = Figure(figsize=(PLOTWIDTH,PLOTHEIGHT), dpi=75)
 ax_residual1 = fig_residual.add_subplot(211) #just for show
 ax_residual2 = fig_residual.add_subplot(212)
 
-fig_residual.subplots_adjust(wspace=0.5,left=0.30,bottom=0.20) #left allows enough space for the yaxis label to be read.
+#fig_residual.subplots_adjust(wspace=0.5,left=0.30,bottom=0.20) #left allows enough space for the yaxis label to be read.
+fig_residual.subplots_adjust(wspace=0.5,left=0.20,bottom=0.20) #left allows enough space for the yaxis label to be read.
 canvas_residual = FigureCanvasTkAgg(fig_residual, frame_residual)
 canvas_residual.get_tk_widget().grid(row=0)#,side=Tk.TOP)#,fill='x')
 canvas_residual.show()
@@ -244,13 +257,13 @@ def func_record(value=1):
         var_message.set("recording data for metronome 1...")
         root.update()
 
-        recordpulses(var_metronome1filename.get()+".txt")
+        recordpulses(var_root_dir.get()+var_metronome1filename.get()+".txt")
 
     if value == 2:
         var_message.set("recording data for metronome 2...")
         root.update()
 
-        recordpulses(var_metronome2filename.get()+".txt")
+        recordpulses(var_root_dir.get()+var_metronome2filename.get()+".txt")
 
     var_message.set("finished recording data")
     root.update()
@@ -263,7 +276,7 @@ def func_playback(value=1):
         var_message.set("playing back recorded data for metronome 1...")
         root.update()
 
-        ts1 = playpulses(var_metronome1filename.get()+".txt")
+        ts1 = playpulses(var_root_dir.get()+var_metronome1filename.get()+".txt")
         ax_pulse1.cla()
         ax_pulse1.plot(ts1[:,0], ts1[:,1])
         redraw_axes()
@@ -279,7 +292,7 @@ def func_playback(value=1):
         var_message.set("playing back recorded data for metronome 2...")
         root.update()
 
-        ts2 = playpulses(var_metronome2filename.get()+".txt")
+        ts2 = playpulses(var_root_dir.get()+var_metronome2filename.get()+".txt")
         ax_pulse2.cla()
         ax_pulse2.plot(ts2[:,0], ts2[:,1])
         redraw_axes()
@@ -292,19 +305,22 @@ def func_playback(value=1):
 def func_calprofile(value=1):
 
     if value == 1:
-        global ts1, profile1, T1
+        global ts1, profile1
+
+        # get default period from text entry box
+        T1 = np.float(var_T1.get())
 
         var_message.set("calculating pulse period and profile of metronome 1...")
         root.update()
 
         try:
-            profile1 = np.loadtxt(var_metronome1filename.get()+"_profile.txt")
+            profile1 = np.loadtxt(var_root_dir.get()+var_metronome1filename.get()+"_profile.txt")
         except:
             [profile1, T1] = calpulseprofile(ts1, var_metronome1bpm.get())
             print('T1 = ', T1, 'sec')
             var_T1.set(T1)
             # write pulse profile to file
-            outfile1 = var_metronome1filename.get()+"_profile.txt"
+            outfile1 = var_root_dir.get()+var_metronome1filename.get()+"_profile.txt"
             np.savetxt(outfile1, profile1)
 
         # plot pulse profile
@@ -313,23 +329,26 @@ def func_calprofile(value=1):
         redraw_axes()
 
         # write pulse profile to file
-        outfile1 = var_metronome1filename.get()+"_profile.txt"
+        outfile1 = var_root_dir.get()+var_metronome1filename.get()+"_profile.txt"
         np.savetxt(outfile1, profile1)
 
     if value == 2:
-        global ts2, profile2, T2
+        global ts2, profile2
+
+        # get default period from text entry box
+        T2 = np.float(var_T2.get())
 
         var_message.set("calculating pulse period and profile of metronome 2...")
         root.update()
 
         try:
-            profile2 = np.loadtxt(var_metronome2filename.get()+"_profile.txt")
+            profile2 = np.loadtxt(var_root_dir.get()+var_metronome2filename.get()+"_profile.txt")
         except:
             [profile2, T2] = calpulseprofile(ts2, var_metronome2bpm.get())
             print('T2 = ', T2, 'sec')
             var_T2.set(T2)
             # write pulse profile to file
-            outfile2 = var_metronome2filename.get()+"_profile.txt"
+            outfile2 = var_root_dir.get()+var_metronome2filename.get()+"_profile.txt"
             np.savetxt(outfile2, profile2)
 
         # plot pulse profile
@@ -337,13 +356,20 @@ def func_calprofile(value=1):
         ax_profile2.plot(profile2[:,0], profile2[:,1])
         redraw_axes()
 
+        # write pulse profile to file
+        outfile2 = var_root_dir.get()+var_metronome2filename.get()+"_profile.txt"
+        np.savetxt(outfile2, profile2)
+
     var_message.set("finished calculating pulse period and profile")
     root.update()
 
 def func_calresiduals(value=1):
 
     if value == 1:
-        global ts1, profile1, T1, residuals1, errorbars1
+        global ts1, profile1, residuals1, errorbars1
+
+        # get period from text entry box
+        T1 = np.float(var_T1.get())
 
         var_message.set("calculating residuals for metronome 1...")
         root.update()
@@ -360,7 +386,10 @@ def func_calresiduals(value=1):
         redraw_axes()
 
     if value == 2:
-        global ts2, profile2, T2, residuals2, errorbars2
+        global ts2, profile2, residuals2, errorbars2
+
+        # get period from text entry box
+        T2 = np.float(var_T2.get())
 
         var_message.set("calculating residuals for metronome 2...")
         root.update()
@@ -382,7 +411,10 @@ def func_calresiduals(value=1):
 def func_detrendresiduals(value=1):
 
     if value == 1:
-        global T1, residuals1, errorbars1, dtresiduals1
+        global residuals1, errorbars1, dtresiduals1
+
+        # get period from text entry box
+        T1 = np.float(var_T1.get())
 
         [dtresiduals1, b, m] = detrend(residuals1, errorbars1);
         N1 = len(residuals1[:,0])
@@ -395,7 +427,10 @@ def func_detrendresiduals(value=1):
         redraw_axes()
 
     if value == 2:
-        global T2, residuals2, errorbars2, dtresiduals2
+        global residuals2, errorbars2, dtresiduals2
+
+        # get period from text entry box
+        T2 = np.float(var_T2.get())
 
         [dtresiduals2, b, m] = detrend(residuals2, errorbars2);
         N2 = len(residuals2[:,0])
