@@ -158,7 +158,7 @@ ax_pulse = fig_pulse.add_subplot(111) #just for show
 fig_pulse.subplots_adjust(wspace=0.5,left=0.20,bottom=0.20) #left allows enough space for the yaxis label to be read.
 canvas_pulse = FigureCanvasTkAgg(fig_pulse, frame_pulse)
 canvas_pulse.get_tk_widget().grid(row=0)#,side=Tk.TOP)#,fill='x')
-canvas_pulse.show()
+canvas_pulse.draw()
 
 canvas_pulse._tkcanvas.grid(row=1)#, fill=Tk.BOTH, expand=1)
 
@@ -178,7 +178,7 @@ ax_profile2 = fig_profile.add_subplot(212)
 fig_profile.subplots_adjust(wspace=0.5,left=0.20,bottom=0.20) #left allows enough space for the yaxis label to be read.
 canvas_profile = FigureCanvasTkAgg(fig_profile, frame_profile)
 canvas_profile.get_tk_widget().grid(row=0)#,side=Tk.TOP)#,fill='x')
-canvas_profile.show()
+canvas_profile.draw()
 
 canvas_profile._tkcanvas.grid(row=1)#, fill=Tk.BOTH, expand=1)
 
@@ -322,7 +322,7 @@ ax_residual2 = fig_residual.add_subplot(212)
 fig_residual.subplots_adjust(wspace=0.5,left=0.20,bottom=0.20) #left allows enough space for the yaxis label to be read.
 canvas_residual = FigureCanvasTkAgg(fig_residual, frame_residual)
 canvas_residual.get_tk_widget().grid(row=0)#,side=Tk.TOP)#,fill='x')
-canvas_residual.show()
+canvas_residual.draw()
 
 canvas_residual._tkcanvas.grid(row=1)#, fill=Tk.BOTH, expand=1)
 
